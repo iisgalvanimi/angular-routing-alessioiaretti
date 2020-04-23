@@ -1,0 +1,10 @@
+<h1>Search</h1>
+
+<p>
+  <input type="text" #newquery>
+  <button (click)="submit(newquery)">Search</button>
+</p>
+
+<div *ngIf="results">
+   {{results | json}}
+</div>
