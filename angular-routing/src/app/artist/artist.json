@@ -1,0 +1,38 @@
+{
+"external_urls": {
+  "spotify": "https://open.spotify.com/artist/5AZuEF0feCXMkUCwQiQlW7"
+},
+"followers": {
+  "href": null,
+  "total": 960641
+},
+"genres": [
+  "italian hip hop",
+  "italian underground hip hop",
+  "rap napoletano"
+],
+"href": "https://api.spotify.com/v1/artists/5AZuEF0feCXMkUCwQiQlW7",
+"id": "5AZuEF0feCXMkUCwQiQlW7",
+"images": [
+  {
+    "height": 640,
+    "url": "https://i.scdn.co/image/c9a2915a62d687f45de7d5f30c0ce8ff14a198da",
+    "width": 640
+  },
+  {
+    "height": 320,
+    "url": "https://i.scdn.co/image/cacb06125c63e22df51d01471e09609462d0ed17",
+    "width": 320
+  },
+  {
+    "height": 160,
+    "url": "https://i.scdn.co/image/d3832609266f22e32b77ab72663c5f1861be31dd",
+    "width": 160
+  }
+],
+
+"name": "Marracash",
+"popularity": 77,
+"type": "artist",
+"uri": "spotify:artist:5AZuEF0feCXMkUCwQiQlW7"
+}
