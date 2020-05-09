@@ -22,12 +22,10 @@ router.get('/', function(req, res, next) {
         let sqlRequest = new sql.Request();  //Oggetto che serve a creare le query
         sqlRequest.query(strQuery,  function (err, result) { //Display error page
             if (err) {
-                console.log("Error while querying database :- " + err);
                 res.status(500).json({success: false, message:'Error while querying database', error:err});
                 sql.close();
                 return;
             };
-            console.log(result.recordset);
             res.send(result.recordset); //Il vettore con i dati è nel campo recordset (puoi loggare result per verificare)
             sql.close();
         });
@@ -35,19 +33,41 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    let song = req.body;
-    if (!song) { 
-        res.status(500).json({success: false, message:'Error while connecting database', error:err});
-    };
-    
-    sql.connect(config, err => {
-        let sqlInsert = `INSERT INTO dbo.[SPOTIFYSONGS] (TITOLO,ARTISTA,ALBUM,IDUTENTE) 
-                            VALUES ('${song.TITOLO}','${song.ARTISTA}','${song.ALBUM}','${song.IDUTENTE}')`;
-        let sqlRequest = new sql.Request();                    
-        sqlRequest.query(sqlInsert, (error, results) => {
-            if (error) throw error;
-            res.send({ error: false, data: results, message: 'Canzone inserita con successo.' });
-            sql.close();
+    if (Object.keys(req.body).length === 0) {
+        res.send( 'Errore: Inserire i parametri richiesti');
+        return;
+    }
+
+    sql.connect(config, function(err) {
+        let song = req.body;   
+        let strQuery = `SELECT ID 
+            FROM SPOTIFYUSERS WHERE UTENTE = '${song.UTENTE}' `;
+
+        let sqlRequest = new sql.Request();  //Oggetto che serve a creare le query
+        sqlRequest.query(strQuery, function (err, result) { //Display error page
+            if (err) {
+                res.status(500).json({success: false, message:'Error while querying database', error:err});
+                sql.close();
+                return;
+            };
+            
+            if (result.recordset.length == 0) {
+                res.send({ success: false, message: "Utente non esistente" });
+                sql.close();
+                return;
+            }
+            let idutente = result.recordset[0].ID
+            let sqlInsert = `INSERT INTO dbo.[SPOTIFYSONGS] (TITOLO,ARTISTA,ALBUM,IDUTENTE) 
+                                VALUES ('${song.TITOLO}','${song.ARTISTA}','${song.ALBUM}','${idutente}')`;                
+            sqlRequest.query(sqlInsert, function(err, results) {
+                if (err) {
+                    res.status(500).json({success: false, message:'Error while querying database', error:err});
+                    sql.close();
+                    return;
+                };
+                res.send({ error: false, data: results, message: 'Canzone inserita con successo.' });
+                sql.close();
+            });
         });
     });
 });
