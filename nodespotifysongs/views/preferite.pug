@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    h2 #{title }
+    table
+        h6
+        thead
+            tr
+                th Titolo
+                th &nbsp&nbsp&nbsp&nbsp
+                th Artista
+                th &nbsp&nbsp&nbsp&nbsp
+                th N. Preferenze
+        tbody
+            each item in ris
+                tr
+                    td #{item.TITOLO}
+                    td &nbsp&nbsp&nbsp&nbsp
+                    td #{item.ARTISTA}
+                    td &nbsp&nbsp&nbsp&nbsp
+                    td #{item.CONTPREFERITI}

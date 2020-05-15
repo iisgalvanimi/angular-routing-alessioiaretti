@@ -32,6 +32,28 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/favouritecount', function(req, res, next) {
+    sql.connect(config, err => {
+        if(err) console.log(err);  // ... error check
+    
+    // Query 
+        let strQuery = 'SELECT * FROM SPOTIFYSONGS_NUMASCOLTI ' +
+            'ORDER BY CONTPREFERITI DESC, TITOLO, ARTISTA';
+
+        let sqlRequest = new sql.Request();  //Oggetto che serve a creare le query
+        sqlRequest.query(strQuery,  function (err, result) { //Display error page
+            if (err) {
+                res.status(500).json({success: false, message:'Error while querying database', error:err});
+                sql.close();
+                return;
+            };
+            titolo = 'Classifica Canzoni Preferite';
+            res.render('preferite', { title: titolo, ris: result.recordset })
+            sql.close();
+        });
+    });
+});
+
 router.post('/', function (req, res, next) {
     if (Object.keys(req.body).length === 0) {
         res.send( 'Errore: Inserire i parametri richiesti');
