@@ -15,8 +15,7 @@ router.get('/', function(req, res, next) {
     
     // Query 
         let strQuery = 'SELECT DISTINCT TITOLO, ARTISTA ' +  
-            ' FROM SPOTIFYUSERS U INNER JOIN SPOTIFYSONGS S ' +
-            ' ON U.ID = S.IDUTENTE ' +
+            ' FROM SPOTIFYSONGS ' +
             ' ORDER BY TITOLO, ARTISTA ';
 
         let sqlRequest = new sql.Request();  //Oggetto che serve a creare le query
